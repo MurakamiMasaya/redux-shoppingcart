@@ -1,11 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import CartItem from './CartItem'
+import { clearCart } from '../features/cart/CartSlice'
 
 const CartContainer = () => {
+  // react-reduxからuseDispatch()とuseSelectorを呼び出す
+  // dispatch()で引数にactionCreator関数を取り、storeに通知を出す
+  const dispatch = useDispatch()
   // なぜ分割代入が良いかというと、カンマ区切りで変数を取得できるようになるから
   const { amount, cartItems, total } = useSelector((store) => store.cart)
-  console.log(cartItems, 'cartItems')
+
   if(amount < 1) {
     return (
       <section className='cart'>
@@ -32,7 +36,7 @@ const CartContainer = () => {
         <div className='cart-total'>
           <h4>合計 <span>{total}円</span></h4>
         </div>
-        <button className='btn clear-btn'>全削除</button>
+        <button className='btn clear-btn' onClick={() => dispatch(clearCart())}>全削除</button>
       </footer>
     </section>
   )
